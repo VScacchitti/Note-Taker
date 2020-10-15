@@ -39,7 +39,7 @@ app.post("/api/notes", (req, res) => {
   //generates a random ID for each note
   let id = crypto.randomBytes(16).toString("hex");
   let newNote = {
-    title: req.boby.title,
+    title: req.body.title,
     text: req.body.text,
     id: id,
   };
@@ -75,6 +75,14 @@ app.delete("/api/notes/:id", (req, res) => {
 });
 
 //______________HTML routes________________
+
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 
 //Start server listening
 app.listen(PORT, () => {
