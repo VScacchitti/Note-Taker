@@ -57,7 +57,24 @@ app.post("/api/notes", (req, res) => {
   console.log("A new note has been created!");
   return res.json(savedNotes);
 });
-//HTML routes
+
+//Deletes notes
+app.delete("/api/notes/:id", (req, res) => {
+  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  //returns all notes except the one to be deleted
+  let noteID = savedNotes.filter((x) => x.id != req.params.id);
+  console.log("Note ID", noteID);
+  console.log("REQ.PARAMS.ID", req.params.id);
+
+  fs.writeFileSync("./db/db.json", JSON.stringify(noteID), (err) => {
+    if (err) throw err;
+    console.log("error");
+  });
+  console.log("Your note has been deleted!");
+  return res.json(savedNotes);
+});
+
+//______________HTML routes________________
 
 //Start server listening
 app.listen(PORT, () => {
